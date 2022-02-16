@@ -13,38 +13,43 @@ $shouldHandle = FALSE;
 if(!preg_match('/modules\/editor\/(skins|styles)\//', $uri)) {
     // block request to html/xml
     if(preg_match('/^(addons|common\/tpl|files\/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)\/.+\.(html|xml)$/', $uri)) {
-        echo http_403();
+        $uri = '/block/';
     // block execution of attached script files
     } else if(preg_match('/^files\/(attach|config|cache\/store)\/.+\.(ph(p|t|ar)?[0-9]?|p?html?|cgi|pl|exe|[aj]spx?|inc|bak)$/', $uri)) {
-        echo http_403();
+        $uri = '/block/';
     // block access to env / member cache files
     } else if(preg_match('/^files\/(env|member_extra_info\/(new_message_flags|point))\//', $uri)) {
-        echo http_403();
+        $uri = '/block/';
     // block dotfile / etc file
     } else if(preg_match('/^(\.git|\.ht|\.travis|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README)/', $uri)) {
-        echo http_403();
+        $uri = '/block/';
     }
 }
 
-// if file is not exist
-if(!file_exists($_SERVER["DOCUMENT_ROOT"] . $_SERVER["SCRIPT_NAME"])) {
-    // handle /(mid)/~ case
-    if(preg_match('/^(.+)\/(addons|files|layouts|m\.layouts|modules|widgets|widgetstyles)\/(.*)/', $uri, $m)) {
-        $uri = $m[2] . "/" . $m[3];
-        $shouldHandle = TRUE;
-    }
+// if uri is not blocked
+if($url != '/block/') {
+    // if file is not exists
+    if(!file_exists($_SERVER["DOCUMENT_ROOT"] . $_SERVER["SCRIPT_NAME"])) {
+        // handle /(mid)/~ case
+        if(preg_match('/^(.+)\/(addons|files|layouts|m\.layouts|modules|widgets|widgetstyles)\/(.*)/', $uri, $m)) {
+            $uri = $m[2] . "/" . $m[3];
+            $shouldHandle = TRUE;
+        }
 
-    // handle .min.js or .min.css case
-    if(preg_match('/^(.+)\.min\.(css|js)$/', $uri, $m)) {
-        $uri = $m[1] . "." . $m[2];
-        $shouldHandle = TRUE;
-    }
+        // handle .min.js or .min.css case
+        if(preg_match('/^(.+)\.min\.(css|js)$/', $uri, $m)) {
+            $uri = $m[1] . "." . $m[2];
+            $shouldHandle = TRUE;
+        }
 
-    // if url should be handled by router
-    if($shouldHandle) handlefile($_SERVER["DOCUMENT_ROOT"] . "/" . $uri);
-    // all other nonexist file is handled by rhymix
-    else require "index.php";
+        // if url should be handled by router
+        if($shouldHandle) handlefile($_SERVER["DOCUMENT_ROOT"] . "/" . $uri);
+        // all other nonexist file is handled by rhymix
+        else require "index.php";
+    } else if() {
+        // all exist file is handled by php itself
+        return false;
+    }
 } else {
-    // all exist file is handled by php itself
-    return false;
+    echo http_403();
 }
