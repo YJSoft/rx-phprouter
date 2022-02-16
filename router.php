@@ -30,7 +30,7 @@ if(!preg_match('/modules\/editor\/(skins|styles)\//', $uri)) {
 }
 
 // if uri is not blocked
-if($url != '/block/') {
+if($uri != '/block/') {
     // if file is not exists
     if(!file_exists($_SERVER["DOCUMENT_ROOT"] . $_SERVER["SCRIPT_NAME"])) {
         // handle /(mid)/~ case
