@@ -1,4 +1,8 @@
 <?php
+if(php_sapi_name() !== 'cli-server') {
+    die('Direct access not allowed');
+}
+
 function http_403() {
     header('HTTP/1.1 403 Forbidden');
 
