@@ -55,6 +55,4 @@ if($uri != '/block/') {
     }
 } else {
     echo http_403();
-
-    return true;
 }
