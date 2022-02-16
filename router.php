@@ -49,10 +49,12 @@ if($uri != '/block/') {
         if($shouldHandle) handlefile($_SERVER["DOCUMENT_ROOT"] . "/" . $uri);
         // all other nonexist file is handled by rhymix
         else require "index.php";
-    } else if() {
+    } else {
         // all exist file is handled by php itself
         return false;
     }
 } else {
     echo http_403();
+
+    return true;
 }
