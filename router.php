@@ -9,6 +9,9 @@ $uri = $_SERVER["SCRIPT_NAME"];
 $uri = ltrim($uri, '/');
 $shouldHandle = FALSE;
 
+// block request to router itself
+if($uri == "router.php" || $uri == "router.utils.php") $uri = '/block/';
+
 // except editor skin / style files
 if(!preg_match('/modules\/editor\/(skins|styles)\//', $uri)) {
     // block request to html/xml
