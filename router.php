@@ -1,4 +1,8 @@
 <?php
+if(php_sapi_name() !== 'cli-server') {
+    die('Direct access not allowed');
+}
+
 require "router.utils.php";
 
 $uri = $_SERVER["SCRIPT_NAME"];
