@@ -1,5 +1,5 @@
-# PHP Builtin router for Rhymix 2.x
-PHP 빌트인 서버용 라우터 파일입니다.
+# PHP Builtin server router for Rhymix 2.x
+PHP 빌트인 서버용 라이믹스 2.x 라우터 파일입니다.
 
 ## 사용법
 라이믹스 폴더에 router.php와 router.utils.php 파일을 붙여넣습니다.
